@@ -1,11 +1,15 @@
 #!/bin/bash
-# usage: ./ovs-bind-port.sh <uuid> <mac> <ip/mask>
-#
-# After creating logical port using Neutron port-create or directly
-# create in SDN e.g. ovn-nbctl, use this command to simulate VM/pod
-# creation on host. To test, use:
-# $ ip netns exec <uuid> <command>
-# <command> is any command supposed to test in VM/pod, such as ping
+
+[ $# -eq 0 ] && { 
+    echo "Usage: $0 <port name> <mac> <ip/mask>" 
+    echo ""
+    echo "After creating logical port using Neutron port-create or directly
+create in SDN e.g. ovn-nbctl, use this command to simulate VM/pod
+creation on host. To test, use:
+$ ip netns exec <port name> <command>
+<command> is any command supposed to test in VM/pod, such as ping"
+    exit 1
+}
 
 vethname=`echo $1 | awk -F - '{ print $1 }'`
 vethhost=veth-$vethname
